@@ -1,18 +1,25 @@
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const email = document.getElementById('email').value;
+function validateForm() {
+    const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('error-message');
 
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find(user => user.email === email && user.password === password);
-
-    if (!user) {
-        alert('Invalid email or password!');
-        return;
+    if (username === '' || password === '') {
+        errorMessage.textContent = 'Both fields are required.';
+        return false;
     }
 
-    sessionStorage.setItem('loggedInUser', JSON.stringify(user));
-    alert('Login successful!');
-    window.location.href = 'members.html';
-});
+    if (username.length < 3) {
+        errorMessage.textContent = 'Username must be at least 3 characters long.';
+        return false;
+    }
+
+    if (password.length < 6) {
+        errorMessage.textContent = 'Password must be at least 6 characters long.';
+        return false;
+    }
+
+    // If all validations pass
+    errorMessage.textContent = '';
+    alert('Login successful');
+    return true;
+}
